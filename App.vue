@@ -2,14 +2,9 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			// FIXME: 修复vue3 nvue 不刷新vuex
-			// // #ifdef APP-PLUS
-			// uni.$on('changeLocale', locale => {
-			// 	getCurrentPages().forEach(page => {
-			// 		page.$forceUpdate()
-			// 	})
-			// })
-			// // #endif
+			uni.$on('changeLocale', locale => {
+				this.$locale = locale
+			})
 		},
 		onShow: function() {
 			console.log('App Show')

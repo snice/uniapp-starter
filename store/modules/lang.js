@@ -19,10 +19,7 @@ export default {
 		setLocale(state, locale) {
 			if (state.locale !== locale) {
 				state.locale = locale
-				// FIXME: 修复vue3 nvue 不刷新vuex
-				// // #ifdef  VUE3
-				// uni.$emit('changeLocale', locale)
-				// // #endif
+				uni.$emit('changeLocale', locale)
 				// TODO: 持久化切换语言
 				// // #ifdef H5
 				// uni.setLocale(locale)

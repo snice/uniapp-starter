@@ -12,6 +12,8 @@
 
 ##### 国际化
 
+	基于vuex实现，易扩展，兼容@dcloudio/uni-i18n（即uni-ui也支持国际化），API设计兼容uniapp官方国际化方案
+
 * 获取当前语言
 
 	```js
