@@ -4,7 +4,7 @@
 		<view class="text-area">
 			<text>【app.name】= {{$t('app.name')}}</text>
 		</view>
-		<text>{{this.$store.state.addResult}}</text>
+		<text>result:{{addResult}}</text>
 		<button class="button" type="default" @click="add">add</button>
 
 		<view style="display: flex;flex-direction: row;">
@@ -17,14 +17,20 @@
 
 <script>
 	import '@/global.js';
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
 				title: 'Hello'
 			}
 		},
-		onLoad() {
-			console.log(this.$store.state.addResult)
+		onLoad() {},
+		computed: {
+			...mapState([
+				'addResult'
+			])
 		},
 		methods: {
 			add() {
