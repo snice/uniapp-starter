@@ -1,0 +1,84 @@
+<template>
+	<view class="content">
+		<image class="logo" src="/static/logo.png"></image>
+		<view class="text-area">
+			<text>【app.name】= {{$t('app.name')}}</text>
+		</view>
+		<text>{{this.$store.state.addResult}}</text>
+		<button class="button" type="default" @click="add">add</button>
+
+		<view style="display: flex;flex-direction: row;">
+			<button class="button" type="default" @click="changeLocale('zh-Hans')">简体中文</button>
+			<button class="button" type="default" @click="changeLocale('en')">英文</button>
+		</view>
+		<button type="default" @click="loadI18nRes">加载远程国际化资源包</button>
+	</view>
+</template>
+
+<script>
+	import '@/global.js';
+	export default {
+		data() {
+			return {
+				title: 'Hello'
+			}
+		},
+		onLoad() {
+			console.log(this.$store.state.addResult)
+		},
+		methods: {
+			add() {
+				this.$store.dispatch('add', {
+					a: 100
+				})
+			},
+			changeLocale(locale) {
+				this.$i18n.locale = locale
+			},
+			loadI18nRes() {
+				this.$i18n.messages = {
+					en: {
+						'app.name': 'test'
+					},
+					'zh-Hans': {
+						'app.name': '测试'
+					},
+					'zh-Hant': {
+						'app.name': '測試'
+					}
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+	.content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.logo {
+		height: 200rpx;
+		width: 200rpx;
+		margin-top: 200rpx;
+		margin-bottom: 50rpx;
+	}
+
+	.text-area {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.title {
+		font-size: 36rpx;
+		color: #8f8f94;
+	}
+
+	.button {
+		margin: 20rpx 0;
+	}
+</style>
