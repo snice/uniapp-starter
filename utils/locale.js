@@ -16,6 +16,10 @@ Object.keys(moduleFiles).forEach(it => {
 })
 // #endif
 
+if (!Object.keys(messages).includes('zh_CN')) {
+	messages['zh_CN'] = messages['zh-Hans']
+}
+
 export {
 	messages
 }
