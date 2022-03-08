@@ -4,10 +4,5 @@ export default {
 		commit
 	}, payload) {
 		commit('add', payload)
-	},
-	setLocale: ({
-		commit
-	}, locale) => {
-		commit('lang/setLocale', locale)
 	}
 }

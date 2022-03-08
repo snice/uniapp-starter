@@ -2,9 +2,6 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			uni.$on('changeLocale', locale => {
-				this.$locale = locale
-			})
 		},
 		onShow: function() {
 			console.log('App Show')
