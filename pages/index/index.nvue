@@ -16,21 +16,20 @@
 </template>
 
 <script>
-	import '@/global.js';
-	import {
-		mapState
-	} from 'vuex'
-	export default {
+	import Global from '@/global.js'
+	export default Object.assign(Global, {
 		data() {
 			return {
 				title: 'Hello'
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			// console.log('index', this)
+		},
 		computed: {
-			...mapState([
-				'addResult'
-			])
+			addResult() {
+				return this.$store.state.addResult
+			}
 		},
 		methods: {
 			add() {
@@ -55,7 +54,7 @@
 				}
 			}
 		}
-	}
+	})
 </script>
 
 <style>

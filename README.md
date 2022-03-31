@@ -36,8 +36,10 @@
 	首先，使用global.js
 
 	```js
-	import '@/global.js';
-	export default {}
+	import Global from '@/global.js'
+	export default Object.assign(Global, {
+		
+	})
 	```
 	
 	其次，使用$t('key')
@@ -66,4 +68,11 @@
 
 ##### vue3 for app-nvue 不完全支持nvue
 
-	目前测试发现，app-nvue已经支持vue3，但是nvue不能动态刷新数据
+	从HBX 3.4.3 Alpha开始，app-nvue已经支持vue3，但是还是存在兼容问题
+	
+* 不能在app-nvue引入vuex
+
+```js
+import * as Vuex from 'vuex';
+// Vuex.default 是undefined
+```
