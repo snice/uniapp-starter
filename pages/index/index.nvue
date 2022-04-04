@@ -12,12 +12,14 @@
 			<button class="button" type="default" @click="changeLocale('en')">英文</button>
 		</view>
 		<button type="default" @click="loadI18nRes">加载远程国际化资源包</button>
+		<button @click="goPage">跳转page</button>
 	</view>
 </template>
 
 <script>
-	import Global from '@/global.js'
-	export default Object.assign(Global, {
+	import { mapState } from 'vuex'
+	import extendsGlobal from '@/global.js'
+	export default extendsGlobal({
 		data() {
 			return {
 				title: 'Hello'
@@ -27,9 +29,7 @@
 			// console.log('index', this)
 		},
 		computed: {
-			addResult() {
-				return this.$store.state.addResult
-			}
+			...mapState(['addResult'])
 		},
 		methods: {
 			add() {
@@ -52,6 +52,11 @@
 						'app.name': '測試'
 					}
 				}
+			},
+			goPage() {
+				uni.navigateTo({
+					url: '/pages/page2/page2'
+				})
 			}
 		}
 	})

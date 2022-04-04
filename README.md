@@ -36,9 +36,11 @@
 	首先，使用global.js
 
 	```js
-	import Global from '@/global.js'
-	export default Object.assign(Global, {
-		
+	import extendsGlobal from '@/global.js'
+	export default extendsGlobal({
+		data() {
+			return {}
+		}
 	})
 	```
 	
@@ -68,11 +70,4 @@
 
 ##### vue3 for app-nvue 不完全支持nvue
 
-	从HBX 3.4.3 Alpha开始，app-nvue已经支持vue3，但是还是存在兼容问题
-	
-* 不能在app-nvue引入vuex
-
-```js
-import * as Vuex from 'vuex';
-// Vuex.default 是undefined
-```
+	从HBX 3.4.3 Alpha开始，app-nvue已经支持vue3
