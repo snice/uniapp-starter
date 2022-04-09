@@ -26,12 +26,8 @@
 	* vue3
 
 		```js
-		import {
-			useLang
-		} from '@/hooks/lang.js'
-		const {
-			i18n
-		} = useLang()
+		import { useLang } from '@/hooks/lang.js'
+		const { i18n } = useLang()
 		i18n.locale
 		```
 
@@ -46,12 +42,8 @@
 	* vue3
 
 		```js
-		import {
-			useLang
-		} from '@/hooks/lang.js'
-		const {
-			i18n
-		} = useLang()
+		import { useLang } from '@/hooks/lang.js'
+		const { i18n } = useLang()
 		i18n.locale = 'en'
 		```
 
@@ -81,13 +73,8 @@
 	
 		```js
 		<script setup>
-			import {
-				useLang
-			} from '@/hooks/lang.js'
-			const {
-				i18n,
-				$t
-			} = useLang()
+			import { useLang } from '@/hooks/lang.js'
+			const { i18n, $t } = useLang()
 			const changeLocale = locale => {
 				i18n.locale = locale
 			}

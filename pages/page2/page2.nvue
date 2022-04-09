@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text>【app.name】= {{$t('app.name')}}</text>
+		<text>【app.name】= {{ $t('app.name') }}</text>
 		<view style="display: flex;flex-direction: row;">
 			<button class="button" type="default" @click="changeLocale('zh-Hans')">简体中文</button>
 			<button class="button" type="default" @click="changeLocale('en')">英文</button>
@@ -9,18 +9,11 @@
 </template>
 
 <script setup>
-	import {
-		useLang
-	} from '@/hooks/lang.js'
-	const {
-		i18n,
-		$t
-	} = useLang()
-	const changeLocale = locale => {
-		i18n.locale = locale
-	}
+import { useLang } from '@/hooks/lang.js';
+const { i18n, $t } = useLang();
+const changeLocale = locale => {
+	i18n.locale = locale;
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

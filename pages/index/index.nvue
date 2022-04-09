@@ -2,9 +2,9 @@
 	<view class="content">
 		<image class="logo" src="/static/logo.png"></image>
 		<view class="text-area">
-			<text>【app.name】= {{$t('app.name')}}</text>
+			<text>【app.name】= {{ $t('app.name') }}</text>
 		</view>
-		<text>vuex测试:{{addResult}}</text>
+		<text>vuex测试:{{ addResult }}</text>
 		<button class="button" type="default" @click="add">vuex add</button>
 
 		<view style="display: flex;flex-direction: row;">
@@ -17,78 +17,78 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import extendsGlobal from '@/global.js'
-	export default extendsGlobal({
-		data() {
-			return {
-				title: 'Hello'
-			}
+import { mapState } from 'vuex';
+import extendsGlobal from '@/global.js';
+export default extendsGlobal({
+	data() {
+		return {
+			title: 'Hello'
+		};
+	},
+	onLoad() {
+		// console.log('index', this)
+	},
+	computed: {
+		...mapState(['addResult'])
+	},
+	methods: {
+		add() {
+			this.$store.dispatch('add', {
+				a: 100
+			});
 		},
-		onLoad() {
-			// console.log('index', this)
+		changeLocale(locale) {
+			this.$i18n.locale = locale;
 		},
-		computed: {
-			...mapState(['addResult'])
-		},
-		methods: {
-			add() {
-				this.$store.dispatch('add', {
-					a: 100
-				})
-			},
-			changeLocale(locale) {
-				this.$i18n.locale = locale
-			},
-			loadI18nRes() {
-				this.$i18n.messages = {
-					en: {
-						'app.name': 'test'
-					},
-					'zh-Hans': {
-						'app.name': '测试'
-					},
-					'zh-Hant': {
-						'app.name': '測試'
-					}
+		loadI18nRes() {
+			this.$i18n.messages = {
+				en: {
+					'app.name': 'test'
+				},
+				'zh-Hans': {
+					'app.name': '测试'
+				},
+				'zh-Hant': {
+					'app.name': '測試'
 				}
-			},
-			goPage() {
-				uni.navigateTo({
-					url: '/pages/page2/page2'
-				})
-			}
+			};
+		},
+		goPage() {
+			uni.navigateTo({
+				url: '/pages/page2/page2'
+			});
 		}
-	})
+	}
+});
 </script>
 
 <style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
+.content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-bottom: 50rpx;
-	}
+.logo {
+	height: 200rpx;
+	width: 200rpx;
+	margin-top: 200rpx;
+	margin-bottom: 50rpx;
+}
 
-	.text-area {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-	}
+.text-area {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
 
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
+.title {
+	font-size: 36rpx;
+	color: #8f8f94;
+}
 
-	.button {
-		margin: 20rpx 0;
-	}
+.button {
+	margin: 20rpx 0;
+}
 </style>
