@@ -12,37 +12,87 @@
 
 ##### 国际化
 
-	基于vuex实现，易扩展，兼容@dcloudio/uni-i18n（即uni-ui也支持国际化），API设计兼容uniapp官方国际化方案
+	1. 基于vuex实现，易扩展，兼容@dcloudio/uni-i18n（即uni-ui也支持国际化）
+	2. API设计兼容uniapp官方国际化方案
 
 * 获取当前语言
 
-	```js
-	this.$i18n.locale
-	```
+	* vue2
+
+		```js
+		this.$i18n.locale
+		```
+
+	* vue3
+
+		```js
+		import {
+			useLang
+		} from '@/hooks/lang.js'
+		const {
+			i18n
+		} = useLang()
+		i18n.locale
+		```
+
 * 设置语言
 
-	```js
-	this.$i18n.locale = 'en'
-	```
+	* vue2
 
-* vue中使用
+		```js
+		this.$i18n.locale = 'en'
+		```
 
-	```vue
-	<text>{{$t('app.name')}}</text>
-	```
+	* vue3
+
+		```js
+		import {
+			useLang
+		} from '@/hooks/lang.js'
+		const {
+			i18n
+		} = useLang()
+		i18n.locale = 'en'
+		```
+
+* template中使用
+
+	* 使用前提
+
+		vue3需要导入 ***@/hooks/lang.js***
+
+		```vue
+		<text>{{$t('app.name')}}</text>
+		```
 
 * nvue中使用
 
-	首先，使用global.js
+	* vue2
 
-	```js
-	import extendsGlobal from '@/global.js'
-	export default extendsGlobal({
-		data() {
-			return {}
-		}
-	})
-	```
+		```js
+		import extendsGlobal from '@/global.js'
+		export default extendsGlobal({
+			data() {
+				return {}
+			}
+		})
+		```
+	* vue3
+	
+		```js
+		<script setup>
+			import {
+				useLang
+			} from '@/hooks/lang.js'
+			const {
+				i18n,
+				$t
+			} = useLang()
+			const changeLocale = locale => {
+				i18n.locale = locale
+			}
+		</script>
+		```
 	
 	其次，使用$t('key')
 
@@ -52,8 +102,26 @@
 	
 * 支持动态切换语言包
 
+	vue2
+
 	```js
 	this.$i18n.messages = {
+		en: {
+			'app.name': 'test'
+		},
+		'zh-Hans': {
+			'app.name': '测试'
+		},
+		'zh-Hant': {
+			'app.name': '測試'
+		}
+	}
+	```
+
+	vue3
+
+	```js
+	i18n.messages = {
 		en: {
 			'app.name': 'test'
 		},
