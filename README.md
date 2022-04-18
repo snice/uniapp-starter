@@ -121,6 +121,47 @@
 	}
 	```
 	
+
+##### 组件
+
+
+###### v-show-view - 类似v-show指令组件的view
+
+
+* vue2
+
+	```xml
+	<v-show-view :show="showTest">
+		<text style="font-size: 50rpx;">weex-show 内容</text>
+	</v-show-view>
+	```
+
+	```js
+	export default {
+		data() {
+			return {
+				showTest: true
+			}
+		}
+	}
+	```
+
+* vue3
+
+	```xml
+	<v-show-view :show="showTest">
+		<text style="font-size: 50rpx;">weex-show 内容</text>
+	</v-show-view>
+	```
+		
+	```js
+	<script setup>
+	import { ref } from 'vue';
+	const showTest = ref(true);
+	</script>
+	```
+
+
 #### 已知问题
 
 ##### vue3 for app-nvue 不完全支持nvue

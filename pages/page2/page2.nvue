@@ -5,11 +5,22 @@
 			<button class="button" type="default" @click="changeLocale('zh-Hans')">简体中文</button>
 			<button class="button" type="default" @click="changeLocale('en')">英文</button>
 		</view>
+		<view style="border: 2rpx solid red;">
+			<text>weex-show指令测试</text>
+			<v-show-view :show="showTest"><text style="font-size: 50rpx;">weex-show 内容</text></v-show-view>
+			<button type="default" @click="toggle">toggle</button>
+		</view>
 	</view>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useLang } from '@/hooks/lang.js';
+const showTest = ref(false);
+const toggle = () => {
+	showTest.value = !showTest.value;
+	console.log('showTest', showTest.value);
+};
 const { i18n, $t } = useLang();
 const changeLocale = locale => {
 	i18n.locale = locale;
