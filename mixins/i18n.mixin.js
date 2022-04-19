@@ -1,3 +1,6 @@
+import {
+	useLangStore
+} from '@/stores/lang.js'
 export default {
 	beforeCreate() {
 		const self = this
@@ -5,20 +8,22 @@ export default {
 		if (!isApp)
 			this.$i18n = {
 				set locale(value) {
-					self.$store.dispatch('lang/setLocale', value);
+					self.langStore.setLocale(value);
 				},
 				get locale() {
-					return self.$store.getters.locale;
+					return self.langStore.locale;
 				},
 				set messages(value) {
-					self.$store.dispatch('lang/setMessages', value);
+					self.langStore.setMessages(value);
 				}
 			}
 	},
-	mounted() {},
+	computed: {
+		...mapStores(useLangStore)
+	},
 	methods: {
 		$t(s) {
-			return this.$store.getters.$t(s)
+			return this.langStore.$t(s)
 		}
 	}
 }

@@ -1,18 +1,21 @@
+import {
+	useLangStore
+} from '@/stores/lang.js'
 export function useLang() {
-	const store = useStore();
+	const store = useLangStore();
 	const i18n = {
 		set locale(value) {
-			store.dispatch('lang/setLocale', value);
+			store.setLocale(value);
 		},
 		get locale() {
-			return store.getters.locale;
+			return store.locale;
 		},
 		set messages(value) {
-			store.dispatch('lang/setMessages', value);
+			store.setMessages(value);
 		}
 	}
 	const $t = s => {
-		return store.getters.$t(s)
+		return store.$t(s)
 	}
 	return {
 		i18n,

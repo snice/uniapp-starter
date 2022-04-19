@@ -28,7 +28,7 @@ export default defineConfig({
 			],
 			imports: [
 				'vue',
-				'vuex'
+				'pinia'
 			]
 		})
 	]
