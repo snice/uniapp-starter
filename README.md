@@ -8,6 +8,7 @@
 * 基于vuex自定义国际化，支持vue2/vue3，vue/nvue
 * 支持 unplugin-auto-import
 * weex-v-show支持vue2/vue3，参见v-show-view组件
+* 支持pinia，见pinia分支
 
 
 #### 使用
@@ -164,7 +165,5 @@
 
 
 #### 已知问题
-
-##### vue3 for app-nvue 不完全支持nvue
 
 	从HBX 3.4.3 Alpha开始，app-nvue已经支持vue3
