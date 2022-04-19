@@ -1,7 +1,3 @@
-import {
-	useStore
-} from 'vuex';
-
 export function useLang() {
 	const store = useStore();
 	const i18n = {

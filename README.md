@@ -6,6 +6,8 @@
 #### 特性
 
 * 基于vuex自定义国际化，支持vue2/vue3，vue/nvue
+* 支持 unplugin-auto-import
+* weex-v-show支持vue2/vue3，参见v-show-view组件
 
 
 #### 使用
@@ -156,7 +158,6 @@
 		
 	```js
 	<script setup>
-	import { ref } from 'vue';
 	const showTest = ref(true);
 	</script>
 	```

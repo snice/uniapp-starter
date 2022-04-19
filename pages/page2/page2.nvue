@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useLang } from '@/hooks/lang.js';
 const showTest = ref(false);
 const toggle = () => {
