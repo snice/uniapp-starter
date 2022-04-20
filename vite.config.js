@@ -10,6 +10,16 @@ export default defineConfig({
 	},
 	plugins: [
 		uni(),
+		{
+			name: 'my-plugin',
+			enforce: 'pre',
+			transform(code, id) {
+				if (id.includes('/pages/') && (/\.vue$/.test(id) || /\.nvue$/.test(id))) {
+					// console.log(id, code)
+				}
+				return
+			}
+		},
 		AutoImport({
 			include: [
 				/\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -18,7 +28,7 @@ export default defineConfig({
 			],
 			imports: [
 				'vue',
-				'vuex'
+				'pinia'
 			]
 		})
 	]
