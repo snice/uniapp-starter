@@ -13,6 +13,7 @@
 		</view>
 		<button type="default" @click="loadI18nRes">加载远程国际化资源包</button>
 		<button @click="goPage">跳转page</button>
+		<button @click="goNav">跳转Nav</button>
 	</view>
 </template>
 
@@ -56,6 +57,11 @@ export default extendsGlobal({
 		goPage() {
 			uni.navigateTo({
 				url: '/pages/page2/page2'
+			});
+		},
+		goNav() {
+			uni.navigateTo({
+				url: '/pagesCase/nav-transparent/nav-transparent'
 			});
 		}
 	}

@@ -1,0 +1,57 @@
+<template>
+	<!-- #ifdef APP-NVUE -->
+	<view>
+		<list ref="list" style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;">
+			<cell v-for="(item, index) in dataList" :key="item.id">
+				<view class="item" :style="{ 'background-color': item.id == 1 ? 'red' : 'yellow' }">
+					<text>{{ item.name }}</text>
+				</view>
+			</cell>
+		</list>
+		<nf-nav-bar ref="navbar" backgroundColor="red" :border="false" fixed status-bar title="标题" />
+	</view>
+	<!-- #endif -->
+	<!-- #ifndef APP-NVUE -->
+	<view style="height: 200rpx;display: flex;align-items: center;justify-content: center;">此页面仅支持app-nvue</view>
+	<!-- #endif -->
+</template>
+
+<script>
+import { getEl, createAutoBind } from '@/js_sdk/bindingx.utils.js';
+export default {
+	data() {
+		let dataList = [];
+		for (var i = 0; i < 20; i++) {
+			dataList.push({ id: '' + (i + 1), name: 'A' + (i + 1) });
+		}
+		return {
+			dataList
+		};
+	},
+	onReady() {
+		setTimeout(() => {
+			let el = getEl(this.$refs.navbar.$refs.view);
+			createAutoBind({
+				eventType: 'scroll',
+				anchor: getEl(this.$refs.list),
+				props: [
+					{
+						element: el, //动画元素
+						property: 'opacity', //动画属性
+						expression: 'min(100,y)/100' //表达式 说明了y从0-400,对应的值是1-0
+					}
+				]
+			});
+		}, 100);
+	},
+	methods: {}
+};
+</script>
+
+<style>
+.item {
+	height: 400rpx;
+	align-items: center;
+	justify-content: center;
+}
+</style>

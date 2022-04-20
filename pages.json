@@ -5,17 +5,25 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		}, {
+			"path": "pages/page2/page2",
+			"style": {
+				"navigationBarTitleText": "page2",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/page2/page2",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "page2",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
+	"subPackages": [{
+		"root": "pagesCase",
+		"pages": [{
+			"path": "nav-transparent/nav-transparent",
+			"style": {
+				"navigationStyle": "custom",
+				"disableScroll": true
+			}
+		}]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
