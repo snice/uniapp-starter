@@ -52,8 +52,10 @@
 </template>
 
 <script>
-import weexShow from '@/directives/weex-v-show.js';
+// #ifdef APP-NVUE
+import weexVShow from '@/directives/weex-v-show.js';
 import { setAlpha } from '@/js_sdk/bindingx.utils.js';
+// #endif
 import statusBar from './uni-status-bar.vue';
 const getVal = val => (typeof val === 'number' ? val + 'px' : val);
 
@@ -78,12 +80,14 @@ const getVal = val => (typeof val === 'number' ? val + 'px' : val);
  */
 export default {
 	name: 'NfNavBar',
-	directives: {
-		weexShow
-	},
 	components: {
 		statusBar
 	},
+	// #ifdef APP-NVUE
+	directives: {
+		weexShow: weexVShow
+	},
+	// #endif
 	data() {
 		return {
 			show: false
@@ -190,9 +194,14 @@ export default {
 			uni.report('title', this.title);
 		}
 		setTimeout(() => {
+			// #ifdef APP-NVUE
 			setAlpha(this.$refs.view, 0, () => {
 				this.show = true;
 			});
+			// #endif
+			// #ifndef APP-NVUE
+			this.show = true;
+			// #endif
 		}, 200);
 	},
 	methods: {

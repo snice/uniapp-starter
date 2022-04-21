@@ -1,23 +1,43 @@
 <template>
-	<!-- #ifdef APP-NVUE -->
 	<view>
-		<list ref="list" style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;">
-			<cell v-for="(item, index) in dataList" :key="item.id">
-				<view class="item" :style="{ 'background-color': item.id == 1 ? 'red' : 'yellow' }">
-					<text>{{ item.name }}</text>
-				</view>
-			</cell>
-		</list>
-		<nf-nav-bar ref="navbar" backgroundColor="red" :border="false" fixed status-bar title="标题" left-icon="left" @clickLeft="back" />
+		<nf-list ref="list" class="list">
+			<nf-list-item>
+				<image
+					style="width: 750rpx;"
+					src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b4b60b10-5168-11eb-bd01-97bc1429a9ff.jpg"
+					mode="widthFix"
+				></image>
+			</nf-list-item>
+			<nf-list-item
+				v-for="(item, index) in dataList"
+				:key="item.id"
+				class="item"
+				:style="{ 'background-color': item.id % 2 == 1 ? 'red' : 'yellow' }"
+			>
+				<text>{{ item.name }}</text>
+			</nf-list-item>
+		</nf-list>
+		<!-- #ifdef APP -->
+		<nf-nav-bar
+			ref="navbar"
+			backgroundColor="#007AFF"
+			color="white"
+			:border="false"
+			fixed
+			status-bar
+			title="标题"
+			left-icon="left"
+			@clickLeft="back"
+		/>
+		<!-- #endif -->
 	</view>
-	<!-- #endif -->
-	<!-- #ifndef APP-NVUE -->
-	<view style="height: 200rpx;display: flex;align-items: center;justify-content: center;">此页面仅支持app-nvue</view>
-	<!-- #endif -->
 </template>
 
 <script>
-import { getEl, createAutoBind } from '@/js_sdk/bindingx.utils.js';
+// #ifdef APP
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+// #endif
+import { delay } from '@/js_sdk/common.utils.js';
 export default {
 	data() {
 		let dataList = [];
@@ -31,21 +51,25 @@ export default {
 			dataList
 		};
 	},
-	onReady() {
-		setTimeout(() => {
-			let el = getEl(this.$refs.navbar.$refs.view);
-			createAutoBind({
-				eventType: 'scroll',
-				anchor: getEl(this.$refs.list),
-				props: [
-					{
-						element: el, //动画元素
-						property: 'opacity', //动画属性
-						expression: 'min(100,y)/100' //表达式 说明了y从0-400,对应的值是1-0
-					}
-				]
-			});
-		}, 100);
+	async onLoad() {
+		await this.$nextTick();
+		// #ifdef APP
+		await delay(100);
+		createAutoBind({
+			eventType: 'scroll',
+			anchor: getEl(this.$refs.list.$refs.list),
+			props: [
+				{
+					element: getEl(this.$refs.navbar.$refs.view), //动画元素
+					property: 'opacity', //动画属性
+					expression: 'min(100,y)/100' //表达式 说明了y从0-400,对应的值是1-0
+				}
+			]
+		});
+		// #endif
+	},
+	onUnload() {
+		unbindAll();
 	},
 	methods: {
 		back() {
@@ -55,7 +79,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.list {
+	/* #ifdef APP || APP-NVUE */
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	/* #endif */
+}
 .item {
 	height: 400rpx;
 	align-items: center;

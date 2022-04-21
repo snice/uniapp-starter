@@ -1,0 +1,29 @@
+<template>
+	<view>
+		<uni-section title="国际化" sub-title="" type="line">
+			<uni-list><uni-list-item title="国际化" note="自定义通用国际化方案" to="/pages/index/index" /></uni-list>
+		</uni-section>
+		<uni-section title="nvue案例" sub-title="" type="line">
+			<uni-list><uni-list-item v-for="item in cases" :key="item.to" :to="item.to" :title="item.title" :note="item.note" /></uni-list>
+		</uni-section>
+	</view>
+</template>
+
+<script>
+export default {
+	data() {
+		return {
+			cases: [
+				{
+					title: 'nvue透明渐变导航栏',
+					note: 'nvue透明渐变导航栏',
+					to: '/pagesCase/nav-transparent/nav-transparent'
+				}
+			]
+		};
+	},
+	methods: {}
+};
+</script>
+
+<style></style>
