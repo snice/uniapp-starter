@@ -26,7 +26,7 @@
 	"subPackages": [{
 		"root": "pagesCase",
 		"pages": [
-			// #ifdef APP
+			// #ifdef APP-PLUS
 			{
 				"path": "nav-transparent/nav-transparent",
 				"style": {
@@ -35,7 +35,7 @@
 				}
 			},
 			// #endif
-			// #ifndef APP
+			// #ifndef APP-PLUS
 			{
 				"path": "nav-transparent/nav-transparent",
 				"style": {

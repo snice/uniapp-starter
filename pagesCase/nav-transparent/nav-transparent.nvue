@@ -17,7 +17,7 @@
 				<text>{{ item.name }}</text>
 			</nf-list-item>
 		</nf-list>
-		<!-- #ifdef APP -->
+		<!-- #ifdef APP-PLUS -->
 		<nf-nav-bar
 			ref="navbar"
 			backgroundColor="#007AFF"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-// #ifdef APP
+// #ifdef APP-PLUS
 import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
 // #endif
 import { delay } from '@/js_sdk/common.utils.js';
@@ -53,7 +53,7 @@ export default {
 	},
 	async onLoad() {
 		await this.$nextTick();
-		// #ifdef APP
+		// #ifdef APP-PLUS
 		await delay(100);
 		createAutoBind({
 			eventType: 'scroll',
@@ -69,7 +69,9 @@ export default {
 		// #endif
 	},
 	onUnload() {
+		// #ifdef APP-PLUS
 		unbindAll();
+		// #endif
 	},
 	methods: {
 		back() {
