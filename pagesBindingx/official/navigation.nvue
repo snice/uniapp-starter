@@ -1,0 +1,188 @@
+<template>
+	<view class="app">
+		<list class="list" ref="list">
+			<cell>
+				<view class="header">
+					<view class="header_bg_wrapper">
+						<image class="header_bg" src="https://gw.alicdn.com/tfs/TB1PDWiXSBYBeNjy0FeXXbnmFXa-1024-576.jpg" />
+					</view>
+					<view class="header_card" ref="header_card">
+						<view class="card_wrapper"><view class="card_content" style="background-color:#ffffff"></view></view>
+					</view>
+				</view>
+			</cell>
+
+			<cell v-for="(c, idx) in cells" :key="idx">
+				<view class="card_wrapper"><view class="card_content" /></view>
+			</cell>
+		</list>
+
+		<view class="app_bar" ref="app_bar">
+			<view class="app_bar_bg" ref="app_bar_bg" />
+			<view ref="nav_bar">
+				<uni-status-bar backgroundColor="transparent" />
+				<view class="nav_wrapper">
+					<image class="nav_back" @click="goBack" src="https://gw.alicdn.com/tfs/TB1ufOrXTtYBeNjy1XdXXXXyVXa-128-128.png" />
+					<text class="nav_title">Title</text>
+				</view>
+			</view>
+
+			<view class="tab_wrapper_container">
+				<view class="tab_wrapper" v-for="tab in fake_tabs">
+					<text class="tab">{{ tab }}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+import { getComponentRect } from '@/js_sdk/dom.utils.js';
+import { delay } from '@/js_sdk/common.utils.js';
+export default {
+	data() {
+		return {
+			fake_tabs: ['Tab1', 'Tab2', 'Tab3', 'Tab4', 'Tab5', 'Tab6'],
+			cells: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+		};
+	},
+	async onLoad() {
+		await this.$nextTick();
+		await delay(50);
+		this.bind();
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		goBack() {
+			uni.navigateBack({});
+		},
+		async bind() {
+			let list = getEl(this.$refs.list);
+			let target_app_bar = getEl(this.$refs.app_bar);
+			let target_bg = getEl(this.$refs.app_bar_bg);
+			const headerCardRect = await getComponentRect(this.$refs.header_card);
+			const navBarRect = await getComponentRect(this.$refs.nav_bar);
+			let top = Math.floor(headerCardRect.size.top - navBarRect.size.height) - uni.upx2px(20) + 1;
+			console.log(navBarRect.size.height);
+			createAutoBind({
+				eventType: 'scroll',
+				anchor: list,
+				props: [
+					{
+						element: target_bg,
+						property: 'opacity',
+						expression: `min(${top},y)/${top}`
+					},
+					{
+						element: target_app_bar,
+						property: 'transform.translateY',
+						expression: `y<${top}?0:(0-min(y-${top},${navBarRect.size.height}))`
+					}
+				]
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.app {
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	background-color: #e0e0e0;
+}
+.list {
+	flex-direction: column;
+	overflow: hidden;
+	background-color: #f2f3f4;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+}
+.header_bg {
+	width: 750rpx;
+	height: 500rpx;
+}
+.header_bg_wrapper {
+	width: 750rpx;
+	height: 600rpx;
+	position: absolute;
+	top: 0;
+}
+.header {
+	width: 750rpx;
+	height: 600rpx;
+}
+.header_card {
+	margin-top: 330rpx;
+}
+.app_bar {
+	width: 750rpx;
+	height: 250rpx;
+	position: absolute;
+	top: 0;
+}
+.app_bar_bg {
+	width: 750rpx;
+	height: 200rpx;
+	background-color: #03a9f4;
+	position: absolute;
+	top: 0;
+	opacity: 0;
+}
+.card_wrapper {
+	width: 750rpx;
+	height: 250rpx;
+	margin-top: 20rpx;
+	justify-content: center;
+	align-items: center;
+	background-color: transparent;
+}
+.card_content {
+	border-radius: 25rpx;
+	width: 710rpx;
+	height: 250rpx;
+	background-color: #ffffff;
+}
+.nav_wrapper {
+	width: 750rpx;
+	height: 100rpx;
+	align-items: center;
+	background-color: transparent;
+	flex-direction: row;
+}
+.nav_title {
+	font-size: 35rpx;
+	font-weight: bold;
+	margin-left: 250rpx;
+	color: #ffffff;
+}
+.nav_back {
+	width: 40rpx;
+	margin-left: 20rpx;
+	height: 40rpx;
+}
+.tab_wrapper_container {
+	width: 750rpx;
+	height: 100rpx;
+	align-items: center;
+	background-color: transparent;
+	flex-direction: row;
+}
+.tab_wrapper {
+	width: 125rpx;
+	height: 100rpx;
+	align-items: center;
+	justify-content: center;
+}
+.tab {
+	font-size: 25rpx;
+	color: #ffffff;
+}
+</style>

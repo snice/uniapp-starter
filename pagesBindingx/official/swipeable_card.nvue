@@ -1,0 +1,212 @@
+<template>
+	<view class="container">
+		<view class="border">
+			<view ref="my" class="box" @touchstart="touchStart">
+				<view class="head">
+					<view class="avatar" />
+					<text class="username">HACKER</text>
+				</view>
+
+				<view class="content">
+					<text class="desc">
+						Google announced a new version of Nearby Connections for fully offline.high bandwidth peer to peer device
+						communications.
+					</text>
+				</view>
+
+				<view class="footer">
+					<text class="action">SHARE</text>
+					<text class="action" style="color:#7C4DFF">EXPLORE</text>
+				</view>
+			</view>
+		</view>
+
+		<view style="width:750rpx;align-items:center;justify-content:center"><text style="font-size:40rpx">Swipeable Card</text></view>
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+import { delay } from '@/js_sdk/common.utils.js';
+export default {
+	data() {
+		return {
+			x: 0,
+			y: 0,
+			isInAnimation: false,
+			opacity: 1
+		};
+	},
+	async onLoad() {
+		await this.$nextTick();
+		await delay(50);
+		this.bind();
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		touchStart() {
+			if (this.isInAnimation) return;
+			unbindAll();
+			this.bind();
+		},
+		bind() {
+			let my = getEl(this.$refs.my);
+			let translate_x_origin = 'x+0';
+			let opacity_x_origin = '1-abs(x)/600';
+			createAutoBind(
+				{
+					anchor: my,
+					eventType: 'pan',
+					props: [
+						{
+							element: my,
+							property: 'transform.translateX',
+							expression: translate_x_origin
+						},
+						{
+							element: my,
+							property: 'opacity',
+							expression: opacity_x_origin
+						}
+					]
+				},
+				e => {
+					if (e.state === 'end') {
+						this.x += e.deltaX;
+						this.y += e.deltaY;
+						this.opacity = 1 - Math.abs(e.deltaX) / 600;
+						// anim
+						this.bindTiming();
+					}
+				}
+			);
+		},
+		bindTiming() {
+			this.isInAnimation = true;
+			let my = getEl(this.$refs.my);
+			// should equal with timing duration
+			let exit_origin = 't>1000';
+			let changed_x;
+			let final_x;
+			let final_opacity;
+			let translate_x_origin;
+			let shouldDismiss = false;
+			if (this.x >= -750 / 2 && this.x <= 750 / 2) {
+				shouldDismiss = false;
+				final_x = 0;
+				changed_x = 0 - this.x;
+				final_opacity = 1;
+				translate_x_origin = `easeOutElastic(t,${this.x},${changed_x},1000)`;
+			} else if (this.x < -750 / 2) {
+				shouldDismiss = true;
+				final_x = -750;
+				changed_x = -750 - this.x;
+				final_opacity = 0;
+				translate_x_origin = `easeOutExpo(t,${this.x},${changed_x},1000)`;
+			} else {
+				// x > 750/2
+				final_x = 750;
+				shouldDismiss = true;
+				changed_x = 750 - this.x;
+				final_opacity = 0;
+				translate_x_origin = `easeOutExpo(t,${this.x},${changed_x},1000)`;
+			}
+			var changed_opacity = final_opacity - this.opacity;
+			var opacity_origin = `linear(t,${this.opacity},${changed_opacity},1000)`;
+			createAutoBind(
+				{
+					eventType: 'timing',
+					exitExpression: exit_origin,
+					props: [
+						{
+							element: my,
+							property: 'transform.translateX',
+							expression: translate_x_origin
+						},
+						{
+							element: my,
+							property: 'opacity',
+							expression: opacity_origin
+						}
+					]
+				},
+				e => {
+					if (e.state === 'end' || e.state === 'exit') {
+						// reset x
+						this.x = final_x;
+						this.isInAnimation = false;
+						if (shouldDismiss) {
+							// remove card from hierarchy
+						}
+					}
+				}
+			);
+		}
+	}
+};
+</script>
+
+<style>
+.container {
+	flex: 1;
+	background-color: #eeeeee;
+}
+.border {
+	height: 1000rpx;
+	padding-left: 35rpx;
+	padding-right: 35rpx;
+	padding-top: 100rpx;
+}
+.box {
+	width: 680rpx;
+	height: 450rpx;
+	background-color: #651fff;
+}
+.head {
+	background-color: #651fff;
+	width: 680rpx;
+	height: 120rpx;
+	flex-direction: row;
+	align-items: center;
+}
+.content {
+	width: 680rpx;
+	height: 240rpx;
+	background-color: #651fff;
+	padding-left: 24rpx;
+	padding-top: 24rpx;
+	padding-right: 24rpx;
+}
+.footer {
+	width: 680rpx;
+	height: 90rpx;
+	background-color: #fff;
+	align-items: center;
+	justify-content: flex-end;
+	padding-right: 25rpx;
+	flex-direction: row;
+}
+.action {
+	font-size: 35rpx;
+	padding-right: 20rpx;
+}
+.desc {
+	font-size: 32rpx;
+	color: #fff;
+	padding-left: 24rpx;
+}
+.avatar {
+	width: 96rpx;
+	height: 96rpx;
+	border-radius: 48rpx;
+	background-color: #cddc39;
+	margin-left: 36rpx;
+	margin-right: 48rpx;
+}
+.username {
+	color: #fff;
+	font-size: 32rpx;
+}
+</style>

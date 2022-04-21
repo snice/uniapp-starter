@@ -1,0 +1,144 @@
+<template>
+	<view class="container">
+		<view ref="ball" class="ball" @touchstart="onPanStart" />
+		<view class="desc_wrapper"><text class="desc">Draggable Ball</text></view>
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+import { delay } from '@/js_sdk/common.utils.js';
+export default {
+	data() {
+		return {
+			x: 0,
+			y: 0,
+			isInAnimation: false
+		};
+	},
+	async onLoad() {
+		await this.$nextTick();
+		await delay(50);
+		this.bind();
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		onPanStart() {
+			if (this.isInAnimation) return;
+			this.bind();
+		},
+		bind() {
+			let my = getEl(this.$refs.ball);
+			let expression_x_origin = `x+${this.x}`;
+			let expression_y_origin = `y+${this.y}`;
+			createAutoBind(
+				{
+					anchor: my,
+					eventType: 'pan',
+					props: [
+						{
+							element: my,
+							property: 'transform.translateX',
+							expression: expression_x_origin
+						},
+						{
+							element: my,
+							property: 'transform.translateY',
+							expression: expression_y_origin
+						}
+					]
+				},
+				e => {
+					if (e.state === 'end' || e.state === 'exit') {
+						this.x += e.deltaX;
+						this.y += e.deltaY;
+						this.bindTiming();
+					}
+				}
+			);
+		},
+		bindTiming() {
+			this.isInAnimation = true;
+			let my = getEl(this.$refs.ball);
+			//should equal with timing duration
+			let exit_origin = 't>1000';
+			let changed_x;
+			let final_x;
+			let final_y;
+			if (this.x > (750 - 50 * 2) / 2) {
+				//right
+				changed_x = 550 - this.x;
+				final_x = 550;
+			} else {
+				changed_x = 0 - this.x;
+				final_x = 0;
+			}
+			var totalHeight = 1000;
+			var changed_y;
+			if (this.y > totalHeight / 2) {
+				changed_y = totalHeight - 200 - this.y;
+				final_y = totalHeight - 200;
+			} else {
+				changed_y = 0 - this.y;
+				final_y = 0;
+			}
+			let expression_x = `easeOutElastic(t,${this.x},${changed_x},1000)`;
+			let expression_y = `easeOutElastic(t,${this.y},${changed_y},1000)`;
+			createAutoBind(
+				{
+					eventType: 'timing',
+					exitExpression: exit_origin,
+					props: [
+						{
+							element: my,
+							property: 'transform.translateX',
+							expression: expression_x
+						},
+						{
+							element: my,
+							property: 'transform.translateY',
+							expression: expression_y
+						}
+					]
+				},
+				e => {
+					if (e.state === 'end' || e.state === 'exit') {
+						// reset x & y
+						this.x = final_x;
+						this.y = final_y;
+						console.log(this.x, this.y);
+						this.isInAnimation = false;
+					}
+				}
+			);
+		}
+	}
+};
+</script>
+
+<style>
+.container {
+	flex: 1;
+}
+.ball {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50rpx;
+	background-color: #00ff00;
+	margin: 48rpx;
+}
+.desc {
+	color: #ffffff;
+	font-size: 35rpx;
+}
+.desc_wrapper {
+	position: fixed;
+	bottom: 50rpx;
+	width: 750rpx;
+	height: 100rpx;
+	justify-content: center;
+	align-items: center;
+}
+</style>

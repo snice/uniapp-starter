@@ -1,0 +1,304 @@
+<template>
+	<view class="container">
+		<view class="menu">
+			<view class="item_container" style="opacity:0" ref="menu1"><text class="item">Menu1</text></view>
+			<view class="item_container" style="opacity:0" ref="menu2"><text class="item">Menu2</text></view>
+			<view class="item_container" style="opacity:0" ref="menu3"><text class="item">Menu3</text></view>
+			<view class="item_container" style="opacity:0" ref="menu4"><text class="item">Menu4</text></view>
+			<view class="item_container" style="opacity:0" ref="menu5"><text class="item">Menu5</text></view>
+		</view>
+
+		<view class="main" ref="main" @touchstart="onTouchStart">
+			<view class="block" />
+			<view class="block" style="margin-top:15rpx" />
+			<view class="block" style="margin-top:15rpx" />
+			<view class="block" style="margin-top:15rpx" />
+		</view>
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, getComputedStyle, unbindAll } from '@/js_sdk/bindingx.utils.js';
+import { delay } from '@/js_sdk/common.utils.js';
+export default {
+	data() {
+		return {
+			_is_expanded: false,
+			_menu_animation_flag: false,
+			_opacity: 0
+		};
+	},
+	async onLoad() {
+		await this.$nextTick();
+		await delay(50);
+		if (!this._is_expanded) {
+			this.expandWithDrag();
+		} else {
+			this.collapseWithDrag();
+		}
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		onTouchStart() {
+			if (!this._is_expanded) {
+				this.expandWithDrag();
+			} else {
+				this.collapseWithDrag();
+			}
+		},
+		expandWithDrag() {
+			let page = getEl(this.$refs.main);
+			createAutoBind(
+				{
+					eventType: 'pan',
+					anchor: page,
+					props: [
+						{
+							element: page,
+							property: 'transform.translateX',
+							expression: 'min(375,max(0,x))'
+						},
+						{
+							element: page,
+							property: 'transform.scaleX',
+							expression: '1-min(375,max(0,x))/375*0.2' //1-->0.8
+						},
+						{
+							element: page,
+							property: 'transform.scaleY',
+							expression: '1-min(375,max(0,x))/375*0.2'
+						}
+					]
+				},
+				e => {
+					if (e.state === 'end' && !this._is_expanded) {
+						let offset = e.deltaX;
+						if (offset < 375 / 2 && offset > 0) {
+							this.collapseWithAnimation();
+						} else if (offset >= 375 / 2) {
+							this.expandWithAnimation();
+						}
+					}
+				}
+			);
+		},
+		collapseWithDrag() {
+			let page = getEl(this.$refs.main);
+			createAutoBind(
+				{
+					eventType: 'pan',
+					anchor: page,
+					props: [
+						{
+							element: page,
+							property: 'transform.translateX',
+							expression: '375+min(0,max(0-375,x))'
+						},
+						{
+							element: page,
+							property: 'transform.scaleX',
+							expression: '0.8-min(0,max(0-375,x))/375*0.2'
+						},
+						{
+							element: page,
+							property: 'transform.scaleY',
+							expression: '0.8-min(0,max(0-375,x))/375*0.2'
+						}
+					]
+				},
+				e => {
+					if (e.state === 'end' && this._is_expanded) {
+						let offset = Math.abs(e.deltaX);
+						if (offset < 375 / 2 && offset > 0) {
+							this.expandWithAnimation();
+						} else if (offset >= 375 / 2 && offset <= 375) {
+							this.collapseWithAnimation();
+						}
+					}
+				}
+			);
+		},
+		collapseWithAnimation() {
+			this._is_expanded = false;
+			this._menu_animation_flag = false;
+			let page = getEl(this.$refs.main);
+			let offset = getComputedStyle(page).translateX;
+			let duration = 200; //ms
+			let scale = getComputedStyle(page).scaleX;
+			createAutoBind(
+				{
+					eventType: 'timing',
+					exitExpression: `t>${duration}`,
+					props: [
+						{
+							element: page,
+							property: 'transform.translateX',
+							expression: `easeOutCubic(t,${offset},${0 - offset},${duration})`
+						},
+						{
+							element: page,
+							property: 'transform.scaleX',
+							expression: `easeOutCubic(t,${scale},${1 - scale},${duration})`
+						},
+						{
+							element: page,
+							property: 'transform.scaleY',
+							expression: `easeOutCubic(t,${scale},${1 - scale},${duration})`
+						}
+					]
+				},
+				e => {}
+			);
+		},
+		expandWithAnimation() {
+			this._is_expanded = true;
+			let page = getEl(this.$refs.main);
+			let offset = getComputedStyle(page).translateX;
+			let duration = 200; //ms
+			let scale = getComputedStyle(page).scaleX;
+			createAutoBind(
+				{
+					eventType: 'timing',
+					exitExpression: `t>${duration}`,
+					props: [
+						{
+							element: page,
+							property: 'transform.translateX',
+							expression: {
+								origin: `easeOutCubic(t,${offset},${375 - offset},${duration})`
+							}
+						},
+						{
+							element: page,
+							property: 'transform.scaleX',
+							expression: {
+								origin: `easeOutCubic(t,${scale},${0.8 - scale},${duration})` //scale-->1
+							}
+						},
+						{
+							element: page,
+							property: 'transform.scaleY',
+							expression: {
+								origin: `easeOutCubic(t,${scale},${0.8 - scale},${duration})` //scale-->1
+							}
+						}
+					]
+				},
+				e => {
+					if (e.state === 'exit' && !this._menu_animation_flag) {
+						this.showMenu();
+						this._menu_animation_flag = true;
+					}
+				}
+			);
+		},
+		showMenu() {
+			let menu1 = getEl(this.$refs.menu1);
+			let menu2 = getEl(this.$refs.menu2);
+			let menu3 = getEl(this.$refs.menu3);
+			let menu4 = getEl(this.$refs.menu4);
+			let menu5 = getEl(this.$refs.menu5);
+			let duration = 1000; //ms
+			let parallax = 50;
+			createAutoBind({
+				eventType: 'timing',
+				exitExpression: `t>${duration * 5}`,
+				props: [
+					{
+						element: menu1,
+						property: 'transform.translateY',
+						expression: `easeOutElastic(t,0,0-100,${duration})`
+					},
+					{
+						element: menu2,
+						property: 'transform.translateY',
+						expression: `t<${parallax}?0:easeOutElastic(t,0,0-100,${duration - parallax})`
+					},
+					{
+						element: menu3,
+						property: 'transform.translateY',
+						expression: `t<${parallax * 2}?0:easeOutElastic(t,0,0-100,${duration - parallax * 2})`
+					},
+					{
+						element: menu4,
+						property: 'transform.translateY',
+						expression: `t<${parallax * 3}?0:easeOutElastic(t,0,0-100,${duration - parallax * 3})`
+					},
+					{
+						element: menu5,
+						property: 'transform.translateY',
+						expression: `t<${parallax * 4}?0:easeOutElastic(t,0,0-100,${duration - parallax * 4})`
+					},
+					// opacity
+					{
+						element: menu1,
+						property: 'opacity',
+						expression: `easeOutElastic(t,0,1,${duration})`
+					},
+					{
+						element: menu2,
+						property: 'opacity',
+						expression: `t<${parallax}?0:easeOutElastic(t,0,1,${duration - parallax})`
+					},
+					{
+						element: menu3,
+						property: 'opacity',
+						expression: `t<${parallax * 2}?0:easeOutElastic(t,0,1,${duration - parallax * 2})`
+					},
+					{
+						element: menu4,
+						property: 'opacity',
+						expression: `t<${parallax * 3}?0:easeOutElastic(t,0,1,${duration - parallax * 3})`
+					},
+					{
+						element: menu5,
+						property: 'opacity',
+						expression: `t<${parallax * 4}?0:easeOutElastic(t,0,1,${duration - parallax * 4})`
+					}
+				]
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.container {
+	flex: 1;
+	background-color: #03a9f4;
+}
+.main {
+	flex: 1;
+	background-color: #ffffff;
+}
+.menu {
+	width: 375rpx;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	justify-content: center;
+	align-items: center;
+	margin-left: 35rpx;
+	margin-top: 100rpx;
+}
+.item {
+	color: #ffffff;
+	font-size: 40rpx;
+}
+.item_container {
+	height: 60rpx;
+	width: 375rpx;
+	justify-content: center;
+	align-items: center;
+	margin-top: 35rpx;
+}
+.block {
+	width: 720rpx;
+	height: 330rpx;
+	background-color: #ff9800;
+	margin: 15rpx;
+	border-radius: 15rpx;
+}
+</style>

@@ -1,0 +1,57 @@
+<template>
+	<view>
+		<uni-list :bounce="false">
+			<uni-list-item v-for="item in bindingxCases" :key="item.to" :to="item.to" :title="item.title" :note="item.note" />
+		</uni-list>
+	</view>
+</template>
+
+<script>
+export default {
+	data() {
+		return {
+			bindingxCases: [
+				{
+					title: '官方案例-圆形菜单',
+					note: '官方案例-圆形菜单',
+					to: '/pagesBindingx/official/circle_menu'
+				},
+				{
+					title: '官方案例-向上弹起菜单',
+					note: '官方案例-向上弹起菜单',
+					to: '/pagesBindingx/official/expandable_menu'
+				},
+				{
+					title: '官方案例-吸边拖动小球',
+					note: '官方案例-吸边拖动小球',
+					to: '/pagesBindingx/official/draggable_ball'
+				},
+				{
+					title: '官方案例-横滑卡片',
+					note: '官方案例-横滑卡片',
+					to: '/pagesBindingx/official/swipeable_card'
+				},
+				{
+					title: '官方案例-侧滑布局',
+					note: '官方案例-侧滑布局',
+					to: '/pagesBindingx/official/slide_layout'
+				},
+
+				{
+					title: '官方案例-导航栏',
+					note: '官方案例-导航栏',
+					to: '/pagesBindingx/official/navigation'
+				},
+				{
+					title: '官方案例-水波特效',
+					note: '官方案例-水波特效',
+					to: '/pagesBindingx/official/ripple'
+				}
+			]
+		};
+	},
+	methods: {}
+};
+</script>
+
+<style></style>

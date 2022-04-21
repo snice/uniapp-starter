@@ -1,0 +1,81 @@
+<template>
+	<view class="container">
+		<view ref="card" style="background-color:#6A1B9A;width:0rpx;height:0.1rpx;margin-left:-300rpx;margin-top:-300rpx" />
+		<view ref="btn" class="card" style="background-color:#00ff00" @click="clickBtn" />
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+export default {
+	data() {
+		return {};
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		clickBtn() {
+			let card = getEl(this.$refs.card);
+			let duration = 700;
+			let radius = 1800;
+			createAutoBind({
+				eventType: 'timing',
+				exitExpression: {
+					origin: `t>${duration}`
+				},
+				props: [
+					{
+						element: card,
+						property: 'border-top-right-radius',
+						expression: {
+							origin: `easeInOutQuint(t,0,${radius},${duration})`
+						}
+					},
+					{
+						element: card,
+						property: 'border-bottom-left-radius',
+						expression: {
+							origin: `easeInOutQuint(t,0,${radius},${duration})`
+						}
+					},
+					{
+						element: card,
+						property: 'border-bottom-right-radius',
+						expression: {
+							origin: `easeInOutQuint(t,0,${radius},${duration})`
+						}
+					},
+					{
+						element: card,
+						property: 'width',
+						expression: {
+							origin: `easeInOutQuint(t,0,${radius},${duration})`
+						}
+					},
+					{
+						element: card,
+						property: 'height',
+						expression: {
+							origin: `easeInOutQuint(t,0,${radius},${duration})`
+						}
+					}
+				]
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.container {
+	flex: 1;
+}
+.card {
+	width: 100rpx;
+	height: 100rpx;
+	position: absolute;
+	border-radius: 50rpx;
+	top: 0;
+}
+</style>

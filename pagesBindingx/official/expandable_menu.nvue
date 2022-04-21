@@ -1,0 +1,155 @@
+<template>
+	<view class="container">
+		<view ref="b1" class="btn" style="background-color:#6A1B9A" @click="clickBtn"><text class="text">A</text></view>
+		<view ref="b2" class="btn" style="background-color:#0277BD" @click="clickBtn"><text class="text">B</text></view>
+		<view ref="b3" class="btn" style="background-color:#FF9800" @click="clickBtn"><text class="text">C</text></view>
+
+		<view ref="main_btn" class="btn" @click="clickBtn">
+			<image class="image" ref="main_image" src="https://gw.alicdn.com/tfs/TB1PZ25antYBeNjy1XdXXXXyVXa-128-128.png" />
+		</view>
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+export default {
+	data() {
+		return {
+			initMargin: 80,
+			plusMargin: 80,
+			isExpanded: false
+		};
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		collapse() {
+			let main_btn = getEl(this.$refs.main_btn);
+			let main_image = getEl(this.$refs.main_image);
+			let b1 = getEl(this.$refs.b1);
+			let b2 = getEl(this.$refs.b2);
+			let b3 = getEl(this.$refs.b3);
+			let b2_m = this.initMargin + this.plusMargin;
+			let b3_m = this.initMargin + this.plusMargin * 2;
+			createAutoBind({
+				eventType: 'timing',
+				exitExpression: 't>800',
+				props: [
+					{
+						element: main_image,
+						property: 'transform.rotateZ',
+						expression: 'easeOutQuint(t,45,0-45,800)'
+					},
+					{
+						element: main_btn,
+						property: 'background-color',
+						expression: "evaluateColor('#607D8B','#ff0000',min(t,800)/800)"
+					}
+				]
+			});
+			createAutoBind({
+				eventType: 'timing',
+				exitExpression: 't>800',
+				props: [
+					{
+						element: b1,
+						property: 'transform.translateY',
+						expression: `easeOutQuint(t,-${this.initMargin},${this.initMargin},800)`
+					},
+					{
+						element: b2,
+						property: 'transform.translateY',
+						expression: `t<=100?0:easeOutQuint(t-100,-${b2_m},${b2_m},700)`
+					},
+					{
+						element: b3,
+						property: 'transform.translateY',
+						expression: `t<=200?0:easeOutQuint(t-200,-${b3_m},${b3_m},600)`
+					}
+				]
+			});
+		},
+		expand() {
+			let main_btn = getEl(this.$refs.main_btn);
+			let main_image = getEl(this.$refs.main_image);
+			let b1 = getEl(this.$refs.b1);
+			let b2 = getEl(this.$refs.b2);
+			let b3 = getEl(this.$refs.b3);
+			let b2_m = this.initMargin + this.plusMargin;
+			let b3_m = this.initMargin + this.plusMargin * 2;
+			createAutoBind({
+				eventType: 'timing',
+				exitExpression: 't>100',
+				props: [
+					{
+						element: main_image,
+						property: 'transform.rotateZ',
+						expression: 'linear(t,0,45,100)'
+					},
+					{
+						element: main_btn,
+						property: 'background-color',
+						expression: "evaluateColor('#ff0000','#607D8B',min(t,100)/100)"
+					}
+				]
+			});
+			createAutoBind({
+				eventType: 'timing',
+				exitExpression: 't>800',
+				props: [
+					{
+						element: b1,
+						property: 'transform.translateY',
+						expression: `easeOutBounce(t,0,0-${this.initMargin},800)`
+					},
+					{
+						element: b2,
+						property: 'transform.translateY',
+						expression: `t<=100?0:easeOutBounce(t-100,0,0-${b2_m},700)`
+					},
+					{
+						element: b3,
+						property: 'transform.translateY',
+						expression: `t<=200?0:easeOutBounce(t-200,0,0-${b3_m},600)`
+					}
+				]
+			});
+		},
+		clickBtn() {
+			unbindAll();
+			if (this.isExpanded) {
+				this.collapse();
+			} else {
+				this.expand();
+			}
+			this.isExpanded = !this.isExpanded;
+		}
+	}
+};
+</script>
+
+<style>
+.container {
+	flex: 1;
+}
+.image {
+	width: 60rpx;
+	height: 60rpx;
+}
+.text {
+	color: #ffffff;
+	font-size: 30rpx;
+}
+.btn {
+	width: 100rpx;
+	height: 100rpx;
+	background-color: #ff0000;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	border-radius: 50rpx;
+	bottom: 100rpx;
+	right: 100rpx;
+}
+</style>

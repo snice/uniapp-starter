@@ -1,0 +1,293 @@
+<template>
+	<view>
+		<uni-status-bar backgroundColor="transparent" />
+		<view ref="navbar" class="navbar">
+			<view class="navbar_left">
+				<image
+					ref="t_head"
+					style="width: 70rpx;border-radius: 35rpx;opacity: 0;"
+					src="../../static/logo.png"
+					mode="widthFix"
+				></image>
+				<text ref="t_name" style="font-size: 45rpx;margin-left: 30rpx;opacity: 0;">snicesoft</text>
+			</view>
+			<view style="display: flex;flex-direction: row;margin-right: 30rpx;">
+				<uni-icons ref="notif" size="30" type="notification" style="margin-right: 30rpx;" />
+				<uni-icons ref="search" size="30" type="search" />
+			</view>
+		</view>
+		<view ref="profile" class="profile" :style="{ 'padding-top': top }">
+			<image ref="head" class="head" src="../../static/logo.png" mode="heightFix"></image>
+			<text ref="name" style="font-size: 45rpx;margin-top: 50rpx;">snicesoft</text>
+			<view class="info" ref="info">
+				<view style="flex: 1;align-items: center;" ref="my_home">
+					<text>我的主页</text>
+					<text style="color: #333;font-size: 25rpx;">帖子/评论/收藏</text>
+				</view>
+				<view style="width: 1rpx;height: 40rpx;background-color: black;" />
+				<view style="flex: 1;align-items: center;" ref="my_assets">
+					<text>我的资产</text>
+					<text style="color: #333;font-size: 25rpx;">花币/礼包/优惠券</text>
+				</view>
+			</view>
+		</view>
+		<list
+			ref="list"
+			class="list"
+			:show-scrollbar="false"
+			:bounce="false"
+			@touchstart="onTouchStart"
+			@touchend="onTouchEnd"
+			@scrollstart="onScrollStart"
+			@scrollend="onScrollEnd"
+		>
+			<cell ref="top"><view :style="{ height: profileViewH + 'rpx' }"></view></cell>
+			<cell>
+				<view style="height: 1600rpx;background-color: red;align-items: center;padding-top: 200rpx;"><text>内容区</text></view>
+			</cell>
+		</list>
+	</view>
+</template>
+
+<script>
+import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
+import { getComponentRect, scrollToElement } from '@/js_sdk/dom.utils.js';
+import { delay, px2rpx } from '@/js_sdk/common.utils.js';
+import { getTime } from '@/js_sdk/time.utils.js';
+export default {
+	data() {
+		return {
+			top: uni.getSystemInfoSync().statusBarHeight,
+			listDy: 0,
+			profileViewH: 620,
+			lock: false,
+			lockTop: false,
+			touchStartPoint: { x: 0, y: 0 },
+			touchStartTime: 0
+		};
+	},
+	async onLoad() {
+		await this.$nextTick();
+		await delay(60);
+		const navbarRect = await getComponentRect(this.$refs.navbar);
+		const profileRect = await getComponentRect(this.$refs.profile);
+		this.profileViewH = px2rpx(profileRect.size.height);
+		this.listDy = Math.abs(navbarRect.size.bottom - profileRect.size.bottom);
+		await delay(100);
+		this.bindList();
+	},
+	onUnload() {
+		unbindAll();
+	},
+	methods: {
+		async bindList() {
+			const percent = `min(1,abs(y)/${this.listDy})`;
+			const headRect = await getComponentRect(this.$refs.head);
+			const tHeadRect = await getComponentRect(this.$refs.t_head);
+			const headDs = 0.2;
+			const headDy = Math.floor(Math.abs(headRect.size.top - tHeadRect.size.top)) + headDs * tHeadRect.size.height;
+			const headDx = Math.floor(Math.abs(headRect.size.left - tHeadRect.size.left)) + headDs * tHeadRect.size.width;
+
+			const nameRect = await getComponentRect(this.$refs.name);
+			const tNameRect = await getComponentRect(this.$refs.t_name);
+			const nameDy = Math.floor(Math.abs(nameRect.size.top - tNameRect.size.top));
+			const nameDx = Math.floor(Math.abs(nameRect.size.left - tNameRect.size.left));
+
+			createAutoBind({
+				eventType: 'scroll',
+				anchor: getEl(this.$refs.list),
+				props: [
+					{
+						element: getEl(this.$refs.info), //动画元素
+						property: 'opacity', //动画属性
+						expression: '1 - min(160,y)/160' //表达式 说明了y从0-400,对应的值是1-0
+					},
+					{
+						element: getEl(this.$refs.info), //动画元素
+						property: 'transform.translateY', //动画属性
+						expression: 'y * -1'
+					},
+					{
+						element: getEl(this.$refs.head),
+						property: 'transform.scale', //动画属性
+						expression: `1 - ${percent}*${headDs}`
+					},
+					{
+						element: getEl(this.$refs.head),
+						property: 'transform.translateX', //动画属性
+						expression: `max(${-headDx},${percent}*${-headDx})`
+					},
+					{
+						element: getEl(this.$refs.head),
+						property: 'transform.translateY', //动画属性
+						expression: `max(${-headDy},${percent}*${-headDy})`
+					},
+					{
+						element: getEl(this.$refs.name),
+						property: 'transform.translateX', //动画属性
+						expression: `max(${-nameDx},${percent}*${-nameDx})`
+					},
+					{
+						element: getEl(this.$refs.name),
+						property: 'transform.translateY', //动画属性
+						expression: `max(${-nameDy},${percent}*${-nameDy})`
+					}
+				]
+			});
+		},
+		onTouchStart({ changedTouches }) {
+			this.touchStartPoint = { x: changedTouches[0].screenX, y: changedTouches[0].screenY };
+			this.touchStartTime = getTime();
+		},
+		async onTouchEnd({ changedTouches }) {
+			const point = { x: changedTouches[0].screenX, y: changedTouches[0].screenY };
+			if (await this.isClicked(this.$refs.head, point)) {
+				this.clickHead();
+			} else if (await this.isClicked(this.$refs.my_home, point)) {
+				this.clickMyHome();
+			} else if (await this.isClicked(this.$refs.my_assets, point)) {
+				this.clickMyAssets();
+			} else if (await this.isClicked(this.$refs.notif, point)) {
+				this.clickNotif();
+			} else if (await this.isClicked(this.$refs.search, point)) {
+				this.clickSearch();
+			}
+		},
+		async isClicked(ref, point) {
+			const rect = await getComponentRect(ref);
+			if (
+				getTime() - this.touchStartTime < 200 &&
+				this.isInRect(this.touchStartPoint, rect.size) &&
+				this.isInRect(point, rect.size)
+			) {
+				return true;
+			}
+			return false;
+		},
+		isInRect(point, rect) {
+			return point.x >= rect.left && point.x <= rect.right && (point.y >= rect.top && point.y <= rect.bottom);
+		},
+		onScrollStart(e) {
+			if (e.isDragging) {
+				this.lock = false;
+				this.lockTop = false;
+				console.log('unlock start');
+			}
+		},
+		onScrollEnd(e) {
+			const contentOffset = e.contentOffset;
+			if (contentOffset.y == -this.listDy || contentOffset.y == 0) {
+				this.lock = false;
+				this.lockTop = false;
+				console.log('unlock end');
+				return;
+			}
+			if (this.lock) {
+				if (Math.abs(contentOffset.y) > this.listDy) {
+					this.gotoNavbar();
+				}
+				return;
+			}
+			if (contentOffset.y != 0) {
+				this.lock = true;
+				if (Math.abs(contentOffset.y) > this.listDy / 2) {
+					this.gotoNavbar();
+				} else {
+					this.gotoRestore();
+				}
+			}
+		},
+		async gotoNavbar() {
+			if (this.lockTop) return;
+			this.lockTop = true;
+			console.log('gotoNavbar');
+			scrollToElement(this.$refs.top, {
+				offset: this.listDy
+			});
+			await delay(400);
+			this.lockTop = false;
+		},
+		async gotoRestore() {
+			console.log('gotoRestore');
+			scrollToElement(this.$refs.top, {
+				offset: 0
+			});
+			await delay(400);
+		},
+		clickHead() {
+			uni.showToast({
+				title: 'clickHead',
+				icon: 'none'
+			});
+		},
+		clickMyHome() {
+			uni.showToast({
+				title: 'clickMyHome',
+				icon: 'none'
+			});
+		},
+		clickMyAssets() {
+			uni.showToast({
+				title: 'clickMyAssets',
+				icon: 'none'
+			});
+		},
+		clickNotif() {
+			uni.showToast({
+				title: 'clickNotif',
+				icon: 'none'
+			});
+		},
+		clickSearch() {
+			uni.showToast({
+				title: 'clickSearch',
+				icon: 'none'
+			});
+		}
+	}
+};
+</script>
+
+<style scoped>
+.navbar {
+	position: relative;
+	height: 90rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.navbar_left {
+	flex: 1;
+	margin-left: 20rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.profile {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	padding-bottom: 10rpx;
+}
+.head {
+	margin-top: 120rpx;
+	height: 100rpx;
+	border-radius: 50rpx;
+}
+.list {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.info {
+	width: 750rpx;
+	margin-top: 70rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+</style>

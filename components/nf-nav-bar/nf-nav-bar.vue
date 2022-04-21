@@ -7,7 +7,7 @@
 			:style="{ backgroundColor: themeBgColor }"
 			class="uni-navbar__content"
 		>
-			<status-bar v-if="statusBar" :backgroundColor="themeBgColor" />
+			<uni-status-bar v-if="statusBar" :backgroundColor="themeBgColor" />
 			<view :style="{ color: themeColor, backgroundColor: themeBgColor, height: navbarHeight }" class="uni-navbar__header">
 				<view @tap="onClickLeft" class="uni-navbar__header-btns uni-navbar__header-btns-left" :style="{ width: leftIconWidth }">
 					<slot name="left">
@@ -56,7 +56,6 @@
 import weexVShow from '@/directives/weex-v-show.js';
 import { setAlpha } from '@/js_sdk/bindingx.utils.js';
 // #endif
-import statusBar from './uni-status-bar.vue';
 const getVal = val => (typeof val === 'number' ? val + 'px' : val);
 
 /**
@@ -80,9 +79,6 @@ const getVal = val => (typeof val === 'number' ? val + 'px' : val);
  */
 export default {
 	name: 'NfNavBar',
-	components: {
-		statusBar
-	},
 	// #ifdef APP-NVUE
 	directives: {
 		weexShow: weexVShow

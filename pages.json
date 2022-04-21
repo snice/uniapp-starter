@@ -21,11 +21,75 @@
 				"enablePullDownRefresh": false
 			}
 
+		},
+		{
+			"path": "pages/bindingx/bindingx",
+			"style": {
+				"navigationBarTitleText": "官方案例",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"subPackages": [{
 		"root": "pagesCase",
-		"pages": [
+		"pages": [{
+			"path": "nvue-test/nvue-test",
+			"style": {
+				"navigationBarTitleText": "nvue-test"
+			}
+
+		}]
+	}, {
+		"root": "pagesBindingx",
+		"pages": [{
+				"path": "official/circle_menu",
+				"style": {
+					"navigationBarTitleText": "圆形菜单",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "official/draggable_ball",
+				"style": {
+					"navigationBarTitleText": "吸边拖动小球",
+					"backgroundColor": "#00B0FF",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "official/swipeable_card",
+				"style": {
+					"navigationBarTitleText": "横滑卡片",
+					"enablePullDownRefresh": false
+				}
+			}, {
+				"path": "official/slide_layout",
+				"style": {
+					"navigationBarTitleText": "侧滑布局",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "official/ripple",
+				"style": {
+					"navigationBarTitleText": "水波",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "official/expandable_menu",
+				"style": {
+					"navigationBarTitleText": "向上弹起菜单",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "official/navigation",
+				"style": {
+					"navigationStyle": "custom",
+					"disableScroll": true
+				}
+			},
 			// #ifdef APP-PLUS
 			{
 				"path": "nav-transparent/nav-transparent",
@@ -49,10 +113,9 @@
 			{
 				"path": "nav-profile/nav-profile",
 				"style": {
-					"navigationBarTitleText": "",
-					"enablePullDownRefresh": false
+					"navigationStyle": "custom",
+					"disableScroll": true
 				}
-
 			}
 		]
 	}],
