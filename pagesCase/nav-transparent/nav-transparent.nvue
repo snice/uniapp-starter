@@ -8,7 +8,7 @@
 				</view>
 			</cell>
 		</list>
-		<nf-nav-bar ref="navbar" backgroundColor="red" :border="false" fixed status-bar title="标题" />
+		<nf-nav-bar ref="navbar" backgroundColor="red" :border="false" fixed status-bar title="标题" left-icon="left" @clickLeft="back" />
 	</view>
 	<!-- #endif -->
 	<!-- #ifndef APP-NVUE -->
@@ -22,7 +22,10 @@ export default {
 	data() {
 		let dataList = [];
 		for (var i = 0; i < 20; i++) {
-			dataList.push({ id: '' + (i + 1), name: 'A' + (i + 1) });
+			dataList.push({
+				id: '' + (i + 1),
+				name: 'A' + (i + 1)
+			});
 		}
 		return {
 			dataList
@@ -44,7 +47,11 @@ export default {
 			});
 		}, 100);
 	},
-	methods: {}
+	methods: {
+		back() {
+			uni.navigateBack({});
+		}
+	}
 };
 </script>
 
