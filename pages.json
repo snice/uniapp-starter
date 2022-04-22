@@ -20,7 +20,6 @@
 				"navigationBarTitleText": "page2",
 				"enablePullDownRefresh": false
 			}
-
 		},
 		{
 			"path": "pages/bindingx/bindingx",
@@ -66,6 +65,7 @@
 				"path": "official/slide_layout",
 				"style": {
 					"navigationBarTitleText": "侧滑布局",
+					"disableScroll": true,
 					"enablePullDownRefresh": false
 				}
 

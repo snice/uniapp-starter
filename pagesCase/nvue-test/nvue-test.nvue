@@ -1,22 +1,33 @@
 <template>
 	<view>
-		
+		<view style="width: 300rpx;height: 300rpx;border: 1px solid red;" ref="test"><text>test</text></view>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
+const bindingx = uni.requireNativePlugin('bindingx');
+export default {
+	data() {
+		return {};
+	},
+	async onLoad() {
+		await this.$nextTick();
+		setTimeout(() => {
+			const data = bindingx.getComputedStyle(this.getEl(this.$refs.test));
+			console.log('test', JSON.stringify(data));
+		}, 300);
+	},
+	methods: {
+		getEl(el) {
+			if (typeof el === 'string' || typeof el === 'number') return el;
+			if (WXEnvironment) {
+				return el.ref;
+			} else {
+				return el instanceof HTMLElement ? el : el.$el;
 			}
-		},
-		methods: {
-			
 		}
 	}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

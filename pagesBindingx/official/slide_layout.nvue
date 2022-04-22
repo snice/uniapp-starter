@@ -50,6 +50,7 @@ export default {
 		},
 		expandWithDrag() {
 			let page = getEl(this.$refs.main);
+			const w = uni.upx2px(750);
 			createAutoBind(
 				{
 					eventType: 'pan',
@@ -58,26 +59,26 @@ export default {
 						{
 							element: page,
 							property: 'transform.translateX',
-							expression: 'min(375,max(0,x))'
+							expression: `min(${w},max(0,x))`
 						},
 						{
 							element: page,
 							property: 'transform.scaleX',
-							expression: '1-min(375,max(0,x))/375*0.2' //1-->0.8
+							expression: `1-min(${w},max(0,x))/${w}*0.2` //1-->0.8
 						},
 						{
 							element: page,
 							property: 'transform.scaleY',
-							expression: '1-min(375,max(0,x))/375*0.2'
+							expression: `1-min(${w},max(0,x))/${w}*0.2`
 						}
 					]
 				},
 				e => {
 					if (e.state === 'end' && !this._is_expanded) {
 						let offset = e.deltaX;
-						if (offset < 375 / 2 && offset > 0) {
+						if (offset < w / 2 && offset > 0) {
 							this.collapseWithAnimation();
-						} else if (offset >= 375 / 2) {
+						} else if (offset >= w / 2) {
 							this.expandWithAnimation();
 						}
 					}
@@ -86,6 +87,7 @@ export default {
 		},
 		collapseWithDrag() {
 			let page = getEl(this.$refs.main);
+			const w = uni.upx2px(750);
 			createAutoBind(
 				{
 					eventType: 'pan',
@@ -94,26 +96,26 @@ export default {
 						{
 							element: page,
 							property: 'transform.translateX',
-							expression: '375+min(0,max(0-375,x))'
+							expression: `${w}+min(0,max(0-${w},x))`
 						},
 						{
 							element: page,
 							property: 'transform.scaleX',
-							expression: '0.8-min(0,max(0-375,x))/375*0.2'
+							expression: `0.8-min(0,max(0-${w},x))/${w}*0.2`
 						},
 						{
 							element: page,
 							property: 'transform.scaleY',
-							expression: '0.8-min(0,max(0-375,x))/375*0.2'
+							expression: `0.8-min(0,max(0-${w},x))/${w}*0.2`
 						}
 					]
 				},
 				e => {
 					if (e.state === 'end' && this._is_expanded) {
 						let offset = Math.abs(e.deltaX);
-						if (offset < 375 / 2 && offset > 0) {
+						if (offset < w / 2 && offset > 0) {
 							this.expandWithAnimation();
-						} else if (offset >= 375 / 2 && offset <= 375) {
+						} else if (offset >= w / 2 && offset <= w) {
 							this.collapseWithAnimation();
 						}
 					}
@@ -158,6 +160,7 @@ export default {
 			let offset = getComputedStyle(page).translateX;
 			let duration = 200; //ms
 			let scale = getComputedStyle(page).scaleX;
+			const w = uni.upx2px(400);
 			createAutoBind(
 				{
 					eventType: 'timing',
@@ -167,7 +170,7 @@ export default {
 							element: page,
 							property: 'transform.translateX',
 							expression: {
-								origin: `easeOutCubic(t,${offset},${375 - offset},${duration})`
+								origin: `easeOutCubic(t,${offset},${w - offset},${duration})`
 							}
 						},
 						{

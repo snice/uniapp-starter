@@ -108,6 +108,7 @@ dist
 .vscode-test
 
 unpackage/dist
+unpackage/debug
 unpackage/resources
 unpackage/cache/wgt
 .hbuilderx

@@ -9,10 +9,10 @@
 		>
 			<uni-status-bar v-if="statusBar" :backgroundColor="themeBgColor" />
 			<view :style="{ color: themeColor, backgroundColor: themeBgColor, height: navbarHeight }" class="uni-navbar__header">
-				<view @tap="onClickLeft" class="uni-navbar__header-btns uni-navbar__header-btns-left" :style="{ width: leftIconWidth }">
+				<view @click="onClickLeft" class="uni-navbar__header-btns uni-navbar__header-btns-left" :style="{ width: leftIconWidth }">
 					<slot name="left">
 						<view class="uni-navbar__content_view" v-if="leftIcon.length > 0">
-							<uni-icons :color="themeColor" :type="leftIcon" size="20" />
+							<uni-icons @click="onClickLeft" :color="themeColor" :type="leftIcon" size="20" />
 						</view>
 						<view
 							:class="{ 'uni-navbar-btn-icon-left': !leftIcon.length > 0 }"
@@ -23,7 +23,7 @@
 						</view>
 					</slot>
 				</view>
-				<view class="uni-navbar__header-container " @tap="onClickTitle">
+				<view class="uni-navbar__header-container " @click="onClickTitle">
 					<slot>
 						<view class="uni-navbar__header-container-inner" v-if="title.length > 0">
 							<text class="uni-nav-bar-text uni-ellipsis-1" :style="{ color: themeColor }">{{ title }}</text>

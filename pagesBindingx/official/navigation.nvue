@@ -65,8 +65,10 @@ export default {
 			let target_bg = getEl(this.$refs.app_bar_bg);
 			const headerCardRect = await getComponentRect(this.$refs.header_card);
 			const navBarRect = await getComponentRect(this.$refs.nav_bar);
-			let top = Math.floor(headerCardRect.size.top - navBarRect.size.height) - uni.upx2px(20) + 1;
-			console.log(navBarRect.size.height);
+			const marginTop = uni.upx2px(20);
+			let top = headerCardRect.size.top - navBarRect.size.height - marginTop + 1;
+			const navBarHeight = headerCardRect.size.top - top + marginTop + 2;
+			console.log(navBarRect.size);
 			createAutoBind({
 				eventType: 'scroll',
 				anchor: list,
@@ -79,7 +81,7 @@ export default {
 					{
 						element: target_app_bar,
 						property: 'transform.translateY',
-						expression: `y<${top}?0:(0-min(y-${top},${navBarRect.size.height}))`
+						expression: `y<${top}?0:(0-min(y-${top},${navBarHeight}))`
 					}
 				]
 			});
@@ -125,7 +127,7 @@ export default {
 .app_bar {
 	width: 750rpx;
 	height: 250rpx;
-	position: absolute;
+	position: fixed;
 	top: 0;
 }
 .app_bar_bg {
