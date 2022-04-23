@@ -37,6 +37,13 @@
 				"navigationBarTitleText": "nvue-test"
 			}
 
+		}, {
+			"path": "enter-code/enter-code",
+			"style": {
+				"navigationBarTitleText": "短信验证码",
+				"enablePullDownRefresh": false
+			}
+
 		}]
 	}, {
 		"root": "pagesBindingx",

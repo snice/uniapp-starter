@@ -1,0 +1,128 @@
+<template>
+	<view class="container">
+		<view style="position: fixed;top: 0;left: 0;right: 0;opacity: 0;">
+			<!-- #ifdef APP-NVUE -->
+			<input ref="code" type="number" v-model="code" />
+			<!-- #endif -->
+			<!-- #ifndef APP-NVUE -->
+			<input :focus="focus" ref="code" type="number" v-model="code" />
+			<!-- #endif -->
+		</view>
+		<view class="page" @click="clickPage">
+			<text class="uni-h2" style="margin-top: 70rpx;font-weight: 500;">输入短信验证码</text>
+			<view style="flex-direction: row;margin-top: 20rpx;">
+				<text style="color: #636e72;">短信验证码至</text>
+				<text style="margin-left: 30rpx;color: #636e72;">188 8888 8888</text>
+			</view>
+			<view class="input_code">
+				<template v-for="i in codeSize" :key="'char' + i">
+					<view
+						:class="['char_item', inputedSize >= i ? 'char_input' : '']"
+						:elevation="inputedSize >= i ? '5px' : '0'"
+						@click.stop="goInput(i)"
+					>
+						<view class="center">
+							<text style="text-align: center;">{{ code.charAt(i - 1) }}</text>
+						</view>
+					</view>
+				</template>
+			</view>
+			<view style="flex-direction: row;margin-top: 80rpx;align-items: center;">
+				<text style="color: #8c8c8c;font-size: 25rpx;">60秒后重新发送</text>
+				<text style="margin-left: 20rpx;font-size: 25rpx;color: blue;">没有收到验证码？</text>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+export default {
+	data() {
+		return {
+			codeSize: 4,
+			focus: false,
+			code: ''
+		};
+	},
+	computed: {
+		inputedSize() {
+			return this.code.length;
+		}
+	},
+	watch: {
+		code() {
+			if (this.inputedSize == this.codeSize) {
+				uni.showToast({
+					title: '验证码输入完成',
+					icon: 'none'
+				});
+			}
+		}
+	},
+	methods: {
+		clickPage() {
+			console.log('clickPage');
+			// #ifdef APP-NVUE
+			this.$refs.code.blur();
+			// #endif
+			// #ifndef APP-NVUE
+			this.focus = false;
+			// #endif
+		},
+		goInput(i) {
+			if (this.inputedSize >= i - 1) {
+				// #ifdef APP-NVUE
+				this.$refs.code.focus();
+				this.$refs.code.focus();
+				// #endif
+				// #ifndef APP-NVUE
+				this.focus = false;
+				this.$nextTick(() => {
+					this.focus = true;
+				});
+				// #endif
+			}
+		}
+	}
+};
+</script>
+
+<style>
+.page {
+	position: fixed;
+	/* #ifdef H5 */
+	top: 44px;
+	/* #endif */
+	/* #ifndef H5 */
+	top: 0;
+	/* #endif */
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+}
+.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+}
+.input_code {
+	margin-top: 100rpx;
+	flex-direction: row;
+	justify-content: center;
+}
+.char_item {
+	margin: 20rpx;
+	width: 90rpx;
+	height: 90rpx;
+	border-radius: 15rpx;
+	background-color: #dfe4ea;
+	box-shadow: none;
+}
+.char_input {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+	background-color: white;
+}
+</style>

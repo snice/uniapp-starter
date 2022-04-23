@@ -31,6 +31,11 @@ export default {
 					title: 'nvue测试',
 					note: 'nvue测试',
 					to: '/pagesCase/nvue-test/nvue-test'
+				},
+				{
+					title: '输入短信验证码',
+					note: '输入短信验证码',
+					to: '/pagesCase/enter-code/enter-code'
 				}
 			],
 			bindingxCases: [
