@@ -73,7 +73,7 @@ export default {
 					]
 				},
 				e => {
-					if (e.state === 'end') {
+					if (e.state === 'end' || e.state == 'exit') {
 						this.x += e.deltaX;
 						this.y += e.deltaY;
 						this.opacity = 1 - Math.abs(e.deltaX) / 600;

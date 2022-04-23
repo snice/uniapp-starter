@@ -12,3 +12,11 @@ export function getComponentRect(ref) {
 export function scrollToElement(ref, options) {
 	dom.scrollToElement(ref, options);
 }
+/**
+ * 判断point是否在rect中
+ * @param {DOMPoint} point 
+ * @param {Object} rect 
+ */
+export function isInRect(point, rect) {
+	return point.x >= rect.left && point.x <= rect.right && (point.y >= rect.top && point.y <= rect.bottom);
+}

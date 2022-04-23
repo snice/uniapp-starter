@@ -38,7 +38,7 @@ export function createBind(params, cb) {
 export function createAutoBind(params, cb) {
 	let tokenObj = Binding.bind(params, e => {
 		if (cb) cb(e)
-		if (e.state === 'exit')
+		if (e.state === 'exit' || e.state == 'end')
 			Binding.unbind({
 				token: tokenObj.token,
 				eventType: params.eventType
@@ -56,9 +56,8 @@ export function setAlpha(ref, value, cb) {
 			expression: '0*t+' + value
 		}]
 	}, e => {
-		if (e.state == 'exit') {
+		if (e.state == 'exit' || e.state == 'end')
 			cb && cb()
-		}
 	})
 }
 

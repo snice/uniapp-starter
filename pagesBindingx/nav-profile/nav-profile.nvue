@@ -51,7 +51,7 @@
 
 <script>
 import { getEl, createAutoBind, unbindAll } from '@/js_sdk/bindingx.utils.js';
-import { getComponentRect, scrollToElement } from '@/js_sdk/dom.utils.js';
+import { getComponentRect, scrollToElement, isInRect } from '@/js_sdk/dom.utils.js';
 import { delay, px2rpx } from '@/js_sdk/common.utils.js';
 import { getTime } from '@/js_sdk/time.utils.js';
 export default {
@@ -155,17 +155,10 @@ export default {
 		},
 		async isClicked(ref, point) {
 			const rect = await getComponentRect(ref);
-			if (
-				getTime() - this.touchStartTime < 200 &&
-				this.isInRect(this.touchStartPoint, rect.size) &&
-				this.isInRect(point, rect.size)
-			) {
+			if (getTime() - this.touchStartTime < 200 && isInRect(this.touchStartPoint, rect.size) && isInRect(point, rect.size)) {
 				return true;
 			}
 			return false;
-		},
-		isInRect(point, rect) {
-			return point.x >= rect.left && point.x <= rect.right && (point.y >= rect.top && point.y <= rect.bottom);
 		},
 		onScrollStart(e) {
 			if (e.isDragging) {
