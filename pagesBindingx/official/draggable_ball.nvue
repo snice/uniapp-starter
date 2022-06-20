@@ -16,7 +16,7 @@ export default {
 			isInAnimation: false
 		};
 	},
-	async onLoad() {
+	async onReady() {
 		await this.$nextTick();
 		await delay(50);
 		this.bind();

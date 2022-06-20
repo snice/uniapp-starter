@@ -1,21 +1,45 @@
 <template>
 	<view>
-		<view style="width: 300rpx;height: 300rpx;border: 1px solid red;" ref="test"><text>test</text></view>
+		<list :bounce="false" ref="test">
+			<cell style="height: 200rpx;background-color: antiquewhite;"></cell>
+			<cell v-for="i in 30">
+				<view style="height: 300rpx;align-items: center;">
+					<text>{{ i }}</text>
+				</view>
+			</cell>
+		</list>
+		<view style="position: absolute;width: 200rpx;height: 200rpx;left: 200rpx;background-color: red;" ref="float"></view>
 	</view>
 </template>
 
 <script>
-const bindingx = uni.requireNativePlugin('bindingx');
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+const BindingX = uni.requireNativePlugin('bindingx');
 export default {
 	data() {
 		return {};
 	},
-	async onLoad() {
+	async onReady() {
 		await this.$nextTick();
-		setTimeout(() => {
-			const data = bindingx.getComputedStyle(this.getEl(this.$refs.test));
-			console.log('test', JSON.stringify(data));
-		}, 300);
+		await delay(50);
+		let testEl = this.getEl(this.$refs.test);
+		let floatEl = this.getEl(this.$refs.float);
+		let tokenObj = BindingX.bind(
+			{
+				anchor: testEl,
+				eventType: 'scroll',
+				props: [
+					{
+						element: floatEl,
+						property: 'transform.translateY',
+						expression: 'y * -1'
+					}
+				]
+			},
+			e => {}
+		);
 	},
 	methods: {
 		getEl(el) {

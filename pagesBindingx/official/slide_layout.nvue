@@ -28,7 +28,7 @@ export default {
 			_opacity: 0
 		};
 	},
-	async onLoad() {
+	async onReady() {
 		await this.$nextTick();
 		await delay(50);
 		if (!this._is_expanded) {
@@ -88,6 +88,8 @@ export default {
 		collapseWithDrag() {
 			let page = getEl(this.$refs.main);
 			const w = uni.upx2px(750);
+			// let { scaleX: scale, translateX: offset } = getComputedStyle(page);
+			// console.log(offset, w, scale);
 			createAutoBind(
 				{
 					eventType: 'pan',
@@ -96,7 +98,7 @@ export default {
 						{
 							element: page,
 							property: 'transform.translateX',
-							expression: `${w}+min(0,max(0-${w},x))`
+							expression: `${200}+min(0,max(0-${w},x))`
 						},
 						{
 							element: page,
@@ -126,9 +128,8 @@ export default {
 			this._is_expanded = false;
 			this._menu_animation_flag = false;
 			let page = getEl(this.$refs.main);
-			let offset = getComputedStyle(page).translateX;
+			let { translateX: offset, scaleX: scale } = getComputedStyle(page);
 			let duration = 200; //ms
-			let scale = getComputedStyle(page).scaleX;
 			createAutoBind(
 				{
 					eventType: 'timing',
@@ -157,9 +158,8 @@ export default {
 		expandWithAnimation() {
 			this._is_expanded = true;
 			let page = getEl(this.$refs.main);
-			let offset = getComputedStyle(page).translateX;
+			let { translateX: offset, scaleX: scale } = getComputedStyle(page);
 			let duration = 200; //ms
-			let scale = getComputedStyle(page).scaleX;
 			const w = uni.upx2px(400);
 			createAutoBind(
 				{

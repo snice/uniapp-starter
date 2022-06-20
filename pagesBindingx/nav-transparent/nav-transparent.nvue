@@ -51,10 +51,10 @@ export default {
 			dataList
 		};
 	},
-	async onLoad() {
+	async onReady() {
 		await this.$nextTick();
 		// #ifdef APP-PLUS
-		await delay(100);
+		await delay(50);
 		createAutoBind({
 			eventType: 'scroll',
 			anchor: getEl(this.$refs.list.$refs.list),
