@@ -17,6 +17,8 @@
 		"dayjs": "^1.11.1"
 	},
 	"devDependencies": {
+		"auto_import": "file:auto_import",
+		"typescript": "^5.2.2",
 		"unplugin-auto-import": "^0.7.1"
 	}
 }

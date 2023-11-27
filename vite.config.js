@@ -29,7 +29,8 @@ export default defineConfig({
 			imports: [
 				'vue',
 				'pinia'
-			]
+			],
+			dts: './auto_import/auto-imports.d.ts'
 		})
 	]
 })

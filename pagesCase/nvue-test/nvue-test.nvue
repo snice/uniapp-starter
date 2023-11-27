@@ -45,7 +45,7 @@ export default {
 		getEl(el) {
 			if (typeof el === 'string' || typeof el === 'number') return el;
 			if (WXEnvironment) {
-				return el.ref;
+				return el.ref || el.$el.ref;
 			} else {
 				return el instanceof HTMLElement ? el : el.$el;
 			}
