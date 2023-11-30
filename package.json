@@ -19,6 +19,6 @@
 	"devDependencies": {
 		"auto_import": "file:auto_import",
 		"typescript": "^5.2.2",
-		"unplugin-auto-import": "^0.7.1"
+		"unplugin-auto-import": "0.15.3"
 	}
 }

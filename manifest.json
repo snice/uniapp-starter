@@ -1,8 +1,8 @@
 {
-    "name" : "%app.name%",
+    "name" : "starter",
     "locale" : "zh-Hans", // 设置默认语言
-    "appid" : "__UNI__66ABE6D",
-    "description" : "",
+    "appid" : "__UNI__162608C",
+    "description" : "starter",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -11,9 +11,9 @@
         "usingComponents" : true,
         "nvueStyleCompiler" : "uni-app",
         "compilerVersion" : 3,
-		"compatible": {
-			"ignoreVersion": true
-		},
+        "compatible" : {
+            "ignoreVersion" : true
+        },
         "splashscreen" : {
             "alwaysShowBeforeRender" : true,
             "waiting" : true,
@@ -45,10 +45,13 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {
-                "push" : {}
+                "push" : {},
+                "ad" : {}
             }
         }
     },
