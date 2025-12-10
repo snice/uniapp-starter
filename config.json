@@ -1,0 +1,47 @@
+{
+  "android": {
+    "abiFilters": [
+      "arm64-v8a"
+    ],
+    "appName": "nvue模板",
+    "applicationAttrs": [],
+    "buildFeatures": [],
+    "compileSdkVersion": 36,
+    "composeCompilerVersion": "1.5.1",
+    "manifestPlaceholders": {
+      "dcloud_appkey": "xx"
+    },
+    "mavenRepos": [],
+    "metaData": [],
+    "minSdkVersion": 21,
+    "packageName": "com.itfenbao.uni.starter",
+    "signingConfig": {},
+    "targetSdkVersion": 35
+  },
+  "ios": {
+    "appName": "nvue模板",
+    "autoCodeSign": true,
+    "bundleId": "com.itfenbao.uni.starter",
+    "capabilities": {
+      "entitlements": {}
+    },
+    "deploymentTarget": "13.0",
+    "deviceType": [
+      1
+    ],
+    "plist": {
+      "dcloud_appkey": "xx"
+    },
+    "podSources": [],
+    "signingConfig": {
+      "development": {},
+      "release": {}
+    },
+    "staticPods": [],
+    "teamId": "74MNRFPA4K"
+  },
+  "uniSdk": {
+    "android": "/Users/itfenbao/git/app-case-community/uniapp-sdk/SDK/Android-SDK@4.85/SDK",
+    "ios": "/Users/itfenbao/git/app-case-community/uniapp-sdk/SDK/iOSSDK@4.85/SDK"
+  }
+}

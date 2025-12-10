@@ -28,7 +28,8 @@ export default defineConfig({
 			],
 			imports: [
 				'vue',
-				'pinia'
+				'pinia',
+				'uni-app'
 			],
 			dts: './auto_import/auto-imports.d.ts'
 		})
