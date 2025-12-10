@@ -9,7 +9,7 @@
     "compileSdkVersion": 36,
     "composeCompilerVersion": "1.5.1",
     "manifestPlaceholders": {
-      "dcloud_appkey": "xx"
+      "dcloud_appkey": "ac5fa0afb0ed2694e65b1631205cda21"
     },
     "mavenRepos": [],
     "metaData": [],
