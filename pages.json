@@ -32,20 +32,27 @@
 	"subPackages": [{
 		"root": "pagesCase",
 		"pages": [{
-			"path": "nvue-test/nvue-test",
-			"style": {
-				"navigationStyle": "custom",
-				"disableScroll": true
-			}
+				"path": "nvue-test/nvue-test",
+				"style": {
+					"navigationStyle": "custom",
+					"disableScroll": true
+				}
+			}, {
+				"path": "waterfall/waterfall",
+				"style": {
+					"navigationStyle": "custom",
+					"disableScroll": true
+				}
+			},
+			{
+				"path": "enter-code/enter-code",
+				"style": {
+					"navigationBarTitleText": "短信验证码",
+					"enablePullDownRefresh": false
+				}
 
-		}, {
-			"path": "enter-code/enter-code",
-			"style": {
-				"navigationBarTitleText": "短信验证码",
-				"enablePullDownRefresh": false
 			}
-
-		}]
+		]
 	}, {
 		"root": "pagesBindingx",
 		"pages": [{

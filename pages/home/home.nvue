@@ -9,13 +9,15 @@
 		</uni-section>
 		<uni-section title="nvue案例" sub-title="" type="line">
 			<uni-list :bounce="false">
-				<uni-list-item v-for="item in cases" :key="item.to" :to="item.to" :title="item.title" :note="item.note" />
+				<uni-list-item v-for="item in cases" :key="item.to" :to="item.to" :title="item.title"
+					:note="item.note" />
 			</uni-list>
 		</uni-section>
 		<!-- #ifdef APP-NVUE -->
 		<uni-section title="Bindingx案例" sub-title="仅支持nvue" type="line">
 			<uni-list :bounce="false">
-				<uni-list-item v-for="item in bindingxCases" :key="item.to" :to="item.to" :title="item.title" :note="item.note" />
+				<uni-list-item v-for="item in bindingxCases" :key="item.to" :to="item.to" :title="item.title"
+					:note="item.note" />
 			</uni-list>
 		</uni-section>
 		<!-- #endif -->
@@ -23,42 +25,45 @@
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			cases: [
-				{
-					title: 'nvue测试',
-					note: 'nvue测试',
-					to: '/pagesCase/nvue-test/nvue-test'
-				},
-				{
-					title: '输入短信验证码',
-					note: '输入短信验证码',
-					to: '/pagesCase/enter-code/enter-code'
-				}
-			],
-			bindingxCases: [
-				{
-					title: '官方案例',
-					note: '官方案例',
-					to: '/pages/bindingx/bindingx'
-				},
-				{
-					title: '透明渐变导航栏',
-					note: '透明渐变导航栏',
-					to: '/pagesBindingx/nav-transparent/nav-transparent'
-				},
-				{
-					title: '仿华为应用商店个人页',
-					note: '仿华为应用商店个人页',
-					to: '/pagesBindingx/nav-profile/nav-profile'
-				}
-			]
-		};
-	},
-	methods: {}
-};
+	export default {
+		data() {
+			return {
+				cases: [{
+						title: 'nvue测试',
+						note: 'nvue测试',
+						to: '/pagesCase/nvue-test/nvue-test'
+					},
+					{
+						title: '瀑布流',
+						note: '瀑布流测试',
+						to: '/pagesCase/waterfall/waterfall'
+					},
+					{
+						title: '输入短信验证码',
+						note: '输入短信验证码',
+						to: '/pagesCase/enter-code/enter-code'
+					}
+				],
+				bindingxCases: [{
+						title: '官方案例',
+						note: '官方案例',
+						to: '/pages/bindingx/bindingx'
+					},
+					{
+						title: '透明渐变导航栏',
+						note: '透明渐变导航栏',
+						to: '/pagesBindingx/nav-transparent/nav-transparent'
+					},
+					{
+						title: '仿华为应用商店个人页',
+						note: '仿华为应用商店个人页',
+						to: '/pagesBindingx/nav-profile/nav-profile'
+					}
+				]
+			};
+		},
+		methods: {}
+	};
 </script>
 
 <style></style>
